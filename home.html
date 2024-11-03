@@ -51,24 +51,24 @@
         <!-- Start: Pretty Registration Form -->
         <div class="row register-form">
             <div class="col-md-8 offset-md-2">
-                <form class="custom-form" style="font-family: ABeeZee, sans-serif;">
+                <form class="custom-form" style="font-family: ABeeZee, sans-serif;" id="registerForm" method="post">
                     <h1 style="border-color: #ffdd68;">Create a New Goal!</h1>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field" style="font-weight: bold;">Goal (Try to be Specific)</label></div>
-                        <div class="col-sm-6 input-column"><input class="form-control" type="text"></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="title"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Duration of Goal</label></div>
-                        <div class="col-sm-6 input-column"><input class="form-control" type="password"></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="description"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="dropdown-input-field">Type of Goal</label></div>
                         <div class="col-sm-4 input-column">
-                            <div class="dropdown"><button class="btn btn-light dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">Goal Type</button>
+                            <div class="dropdown"><button class="btn btn-light dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="goalType">Goal Type</button>
                                 <div class="dropdown-menu"><a class="dropdown-item">Concurrency</a><a class="dropdown-item">Time</a></div>
                             </div>
                         </div>
-                    </div><button class="btn btn-light submit-button" type="button" style="background: #ffdd68;">Submit Form</button>
+                    </div><button class="btn btn-light submit-button" type="goalsubmit" style="background: #ffdd68;">Submit Form</button>
                 </form>
             </div>
         </div><!-- End: Pretty Registration Form -->
@@ -84,6 +84,50 @@
     <script src="/assets/js/bs-init.js?h=de3d39894fddf69026710ea6bd84d452"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
     <script src="/assets/js/Profile-Edit-Form-profile.js?h=36f16d72db7b5e137e5f6f74a6f95a32"></script>
+    <script>
+        //script to auto update the lines above the form about current goal
+        
+        const goal = document.getElementById('username').value;
+        const streak = document.getElementById('password').value;
+        const time = document.getElementById('fname').value;
+        const lname = document.getElementById('lname').value;
+        const email = document.getElementById('email').value;
+    </script>
+    <script>
+        //script to update database with a new goal
+        document.getElementById("goalForm").addEventListener('goalsubmit', async (event) => {
+            event.preventDefault();
+
+            try {
+                const title = document.getElementById('text').value;
+                const description = document.getElementById('description').value;
+                // const timeStart = 
+                const goalType = document.getElementById('goalType').value;
+
+                const response = await fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({ title, description, timestart, goalType})
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = "/login.html";
+
+                } else {
+                    alert("Registration Failed: ${data.message}");
+                }
+
+            } catch (error) {
+                console.error("Error registering:", error);
+                alert("Error occurred while registering, try again.");
+            }
+        });
+    </script>
 </body>
 
 </html>
