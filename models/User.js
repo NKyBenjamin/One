@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+
     password: {
         type: String,
         required: true
@@ -27,6 +28,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+
+    profile_pix: {
+        type: Image,
+        required: false
+    }
 });
 
 const User = mongoose.model('User', userSchema);
