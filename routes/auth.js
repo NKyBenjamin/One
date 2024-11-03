@@ -16,10 +16,10 @@ const isAuthenticated = (req, res, next) => {
 
 // User Registration
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, fname, lname, email } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'Username and password are required' });
+    if (!username || !password || !fname || !lname || !email) {
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
     try {
@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ username, password: hashedPassword });
+        const newUser = new User({ username, password: hashedPassword, fname, lname, email });
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -55,29 +55,29 @@ router.post('/login', async (req, res) => {
 
         // Set session for logged-in user
         req.session.userId = user._id;
-        res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ 
+            message: 'Login successful', 
+            fname: user.fname 
+        });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Error logging in' });
     }
-    res.status(200).json({ 
-        message: 'Login successful', 
-        fname: user.fname
-    });
-
-    router.get('/user', isAuthenticated, async (req, res) => {
-        try {
-            const user = await User.findById(req.session.userId, 'fname'); // Fetch only fname
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-            res.json(user); // Send the user data
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-            res.status(500).json({ message: 'Error fetching user data' });
-        }
-    });
 });
 
-// Export both the router and the isAuthenticated middleware
+// Get User Information
+router.get('/user', isAuthenticated, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId, 'fname'); // Fetch only fname
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user); // Send the user data
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Error fetching user data' });
+    }
+});
+
+// Export the router
 module.exports = { router, isAuthenticated };
