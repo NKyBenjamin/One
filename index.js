@@ -8,7 +8,9 @@ const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
-const authRoutes = require('./routes/auth'); // Ensure this path is correct
+const authRoutes = require('./routes/auth');
+const goalRoutes = require('./routes/goals')
+const dayjs = require('dayjs');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -35,7 +37,8 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/api/auth', authRoutes); // Use auth routes under /api/auth
+app.use('/api/auth', authRoutes); 
+app.use('/api/goals', goalRoutes);
 
 // Start the server
 app.listen(PORT, () => {
