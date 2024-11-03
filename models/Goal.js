@@ -38,6 +38,7 @@ const GoalSchema = new mongoose.Schema({
         default: dayjs().toDate() 
     
     },
+    
     endDate: {
         type: Date, 
         required: true 
