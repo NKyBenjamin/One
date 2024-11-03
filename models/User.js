@@ -10,7 +10,23 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    
+    fname: {
+        type: String,
+        required: true
+    },
+
+    lname: {
+        type: String,
+        required: true
+    },
+
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
 });
 
 const User = mongoose.model('User', userSchema);
