@@ -119,7 +119,7 @@
                 const target = document.getElementById('target').value;
                 const goalType = document.getElementById('goalType').value;
 
-                const add = await fetch("http://localhost:3000/", {
+                const response = await fetch("http://localhost:5001/", {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
