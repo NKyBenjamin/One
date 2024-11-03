@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth'); // Ensure this is correct
 const goalRoutes = require('./routes/goals'); // Ensure this is correct
 
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 app.set('trust proxy', true);
