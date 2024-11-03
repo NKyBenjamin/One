@@ -39,10 +39,10 @@
         <div class="row" style="padding-top: 0px;margin-top: 40px;">
             <div class="col-md-6 col-xxl-3"><img src="/assets/img/Untitled_Artwork.png?h=431c58adfdf6f6257d3f76b25b93fa08" style="height: 300px;"></div>
             <div class="col-md-6 col-xxl-8">
-                <p style="color: rgb(255,255,255);font-size: 64px;font-family: ABeeZee, sans-serif;">Welcome back, <span id="user-fname">name</span>!</p>
-                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Current Goal:&nbsp;</p>
-                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Daily Streak:</p>
-                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Time Spent:</p>
+                <p style="color: rgb(255,255,255);font-size: 64px;font-family: ABeeZee, sans-serif;" id="welcomeMessage">Welcome back, <span id="user-fname">name</span>!</p>
+                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;" id="currentGoal">Current Goal:&nbsp;</p>
+                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;" id="dailyStreak">Daily Streak:</p>
+                <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;" id="timeSpent">Time Spent:</p>
             </div>
         </div>
     </div><!-- End: 1 Row 2 Columns -->
@@ -55,15 +55,15 @@
                     <h1 style="border-color: #ffdd68;">Create a New Goal!</h1>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field" style="font-weight: bold;">Goal (Try to be Specific)</label></div>
-                        <div class="col-sm-6 input-column"><input class="form-control" type="title"></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="text" id="title"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="duration-input-field">Duration of Goal</label></div>
-                        <div class="col-sm-6 input-column"><input class="form-control" type="description"></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="text" id="description"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="target-input-field">Target of Goal</label></div>
-                        <div class="col-sm-6 input-column"><input class="form-control" type="target"></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="text" id="target"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="dropdown-input-field">Type of Goal</label></div>
@@ -89,64 +89,57 @@
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
     <script src="/assets/js/Profile-Edit-Form-profile.js?h=36f16d72db7b5e137e5f6f74a6f95a32"></script>
     <script>
-        //script to auto update the lines above the form about current goal
-        
-        const goal = document.getElementById('username').value;
-        const streak = document.getElementById('password').value;
-        const time = document.getElementById('fname').value;
-        const lname = document.getElementById('lname').value;
-        const email = document.getElementById('email').value;
-
+        //script that loads user and goal data
         const loadUserProfile = async (username) => {
-    try {
-        const response = await fetch(`/user/${username}`);
-        if (!response.ok) throw new Error('User not found');
+        try {
+            const response = await fetch(`/user/${username}`);
+            if (!response.ok) throw new Error('User not found');
 
-        const user = await response.json();
+            const user = await response.json();
         // Update the HTML with the user's first name and other details
-        document.getElementById('welcomeMessage').innerText = `Welcome back, ${user.fname}!`;
-        document.getElementById('currentGoal').innerText = user.currentGoal;
-        document.getElementById('dailyStreak').innerText = user.dailyStreak;
-        document.getElementById('timeSpent').innerText = user.timeSpent;
-    } catch (error) {
-        console.error(error);
-        document.getElementById('welcomeMessage').innerText = 'Error loading user data';
-    }
-};
-
-    </script>
-    <script>
-        //script to update database with a new goal
+            document.getElementById('welcomeMessage').innerText = `Welcome back, ${user.fname}!`;
+            document.getElementById('currentGoal').innerText = user.currentGoal;
+            document.getElementById('dailyStreak').innerText = user.dailyStreak;
+            document.getElementById('timeSpent').innerText = user.timeSpent;
+        } catch (error) {
+            console.error(error);
+            document.getElementById('welcomeMessage').innerText = 'Error loading user data';
+        }
+    };
+    //script to add a new goal to the database    
         document.getElementById("goalForm").addEventListener('goalsubmit', async (event) => {
             event.preventDefault();
-
             try {
+                const response = await fetch(`/goal`);
+                if (!response.ok) throw new Error('Goal not found');
+
+            const goal = await response.json();
                 const title = document.getElementById('text').value;
                 const description = document.getElementById('description').value;
-                const timeStart = dayjs();
+                const target = document.getElementById('target').value;
                 const goalType = document.getElementById('goalType').value;
 
-                const response = await fetch("http://localhost:3000/", {
+                const add = await fetch("http://localhost:3000/", {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
                     },
-                    body: JSON.stringify({ title, description, timestart, goalType})
+                    body: JSON.stringify({ title, description, goalType, target })
                 });
 
-                const data = await response.json();
+                const data = await add.json();
 
-                if (response.ok) {
+                if (add.ok) {
                     alert(data.message);
-                    window.location.href = "/login.html";
+                    window.location.href = "/home.html";
 
                 } else {
-                    alert("Registration Failed: ${data.message}");
+                    alert("Goal Addition Failed: ${data.message}");
                 }
 
             } catch (error) {
                 console.error("Error registering:", error);
-                alert("Error occurred while registering, try again.");
+                alert("Error occurred while adding goal, try again.");
             }
         });
     </script>
