@@ -1,7 +1,7 @@
 // routes/auth.js
 const express = require('express');
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Ensure this path is correct
+const User = require('../models/User'); 
 
 const router = express.Router();
 
@@ -53,7 +53,15 @@ router.post('/login', async (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Error logging in' });
     }
+
+    const isAuthenticated = (req, res, next) => {
+        if (req.session.userId) {
+            return next();
+        } else {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+    };
 });
 
-module.exports = router;
+module.exports = { router, isAuthenticated };
 
