@@ -32,7 +32,13 @@ const userSchema = new mongoose.Schema({
     profile_pix: {
         type: String,
         required: false
-    }
+    }, args: [{
+        type: mongoose.Schema,
+        required: true,
+        default: function() {
+          return { username: 'HackNC', password: 'NCHACK', fname: 'HackNC', lname: '2024', email: 'hacknc@unc.edu' }
+        }
+    }]
 });
 
 userSchema.pre('save', async function (next) {
