@@ -56,7 +56,16 @@ const GoalSchema = new mongoose.Schema({
 
     lastLogDate: {
         type: Date
-    }
+    },
+    args: [{
+        type: mongoose.Schema,
+        required: true,
+        default: function() {
+          return { userId: '0', title: 'Pushups', description: 'To maintain or do ome more pushup every day', goalType: 'daily', progress: '20', streak: '5' }
+        }
+    }]
 });
+
+
 
 module.exports = mongoose.model("Goal", GoalSchema);

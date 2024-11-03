@@ -92,13 +92,17 @@
         try {
             const response = await fetch(`/user/${username}`);
             if (!response.ok) throw new Error('User not found');
+            const response2 = await fetch(`/goal`);
+                if (!response2.ok) throw new Error('Goal not found');
+
+            const goal = await response2.json();
 
             const user = await response.json();
         // Update the HTML with the user's first name and other details
             document.getElementById('welcomeMessage').innerText = `Welcome back, ${user.fname}!`;
-            document.getElementById('currentGoal').innerText = user.currentGoal;
-            document.getElementById('dailyStreak').innerText = user.dailyStreak;
-            document.getElementById('timeSpent').innerText = user.timeSpent;
+            document.getElementById('currentGoal').innerText = goal.title;
+            document.getElementById('dailyStreak').innerText = goal.streak;
+            document.getElementById('timeSpent').innerText = goal.progress;
         } catch (error) {
             console.error(error);
             document.getElementById('welcomeMessage').innerText = 'Error loading user data';
@@ -117,7 +121,7 @@
                 const target = document.getElementById('target').value;
                 const goalType = document.getElementById('goalType').value;
 
-                const response = await fetch("http://localhost:3000/", {
+                const add = await fetch("http://localhost:5001/", {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
