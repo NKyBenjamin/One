@@ -1,6 +1,6 @@
 const express = require('express');
 const Goal = require('../models/Goal');
-const { verifyToken } = require('../middleware/auth'); 
+const { verifyToken } = require('../routes/auth'); 
 
 const router = express.Router();
 
