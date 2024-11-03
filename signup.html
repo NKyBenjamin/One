@@ -58,6 +58,41 @@
     <script src="/assets/js/bs-init.js?h=de3d39894fddf69026710ea6bd84d452"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
     <script src="/assets/js/Profile-Edit-Form-profile.js?h=36f16d72db7b5e137e5f6f74a6f95a32"></script>
+    <script>
+        document.getElementById("registerForm").addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            try {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const fname = document.getElementById('fname').value;
+                const lname = document.getElementById('lname').value;
+                const email = document.getElementById('email').value;
+
+                const response = await fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({ username, password, fname, lname, email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = "/login.html";
+
+                } else {
+                    alert("Registration Failed: ${data.message}");
+                }
+
+            } catch (error) {
+                console.error("Error registering:", error);
+                alert("Error occurred while registering, try again.");
+            }
+        });
+    </script>
 </body>
 
 </html>
