@@ -39,7 +39,7 @@
         <div class="row" style="padding-top: 0px;margin-top: 40px;">
             <div class="col-md-6 col-xxl-3"><img src="/assets/img/Untitled_Artwork.png?h=431c58adfdf6f6257d3f76b25b93fa08" style="height: 300px;"></div>
             <div class="col-md-6 col-xxl-8">
-                <p style="color: rgb(255,255,255);font-size: 64px;font-family: ABeeZee, sans-serif;">Welcome back, name!</p>
+                <p style="color: rgb(255,255,255);font-size: 64px;font-family: ABeeZee, sans-serif;">Welcome back, <span id="user-fname">name</span>!</p>
                 <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Current Goal:&nbsp;</p>
                 <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Daily Streak:</p>
                 <p style="color: rgb(255,255,255);font-size: 25px;font-family: ABeeZee, sans-serif;">Time Spent:</p>
@@ -92,6 +92,23 @@
         const time = document.getElementById('fname').value;
         const lname = document.getElementById('lname').value;
         const email = document.getElementById('email').value;
+
+        const loadUserProfile = async (username) => {
+    try {
+        const response = await fetch(`/user/${username}`);
+        if (!response.ok) throw new Error('User not found');
+
+        const user = await response.json();
+        // Update the HTML with the user's first name and other details
+        document.getElementById('welcomeMessage').innerText = `Welcome back, ${user.fname}!`;
+        document.getElementById('currentGoal').innerText = user.currentGoal;
+        document.getElementById('dailyStreak').innerText = user.dailyStreak;
+        document.getElementById('timeSpent').innerText = user.timeSpent;
+    } catch (error) {
+        console.error(error);
+        document.getElementById('welcomeMessage').innerText = 'Error loading user data';
+    }
+};
     </script>
     <script>
         //script to update database with a new goal

@@ -60,6 +60,23 @@ router.post('/login', async (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Error logging in' });
     }
+    res.status(200).json({ 
+        message: 'Login successful', 
+        fname: user.fname
+    });
+
+    router.get('/user', isAuthenticated, async (req, res) => {
+        try {
+            const user = await User.findById(req.session.userId, 'fname'); // Fetch only fname
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.json(user); // Send the user data
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            res.status(500).json({ message: 'Error fetching user data' });
+        }
+    });
 });
 
 // Export both the router and the isAuthenticated middleware
