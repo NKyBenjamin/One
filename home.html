@@ -68,9 +68,7 @@
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="dropdown-input-field">Type of Goal</label></div>
                         <div class="col-sm-4 input-column">
-                            <div class="dropdown"><button class="btn btn-light dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="goalType">Goal Type</button>
-                                <div class="dropdown-menu"><a class="dropdown-item">Concurrency</a><a class="dropdown-item">Time</a></div>
-                            </div>
+                               <select name="goaltype" id=""goaltype><div class="dropdown-menu"><option class="dropdown-item">Concurrency</option><option class="dropdown-item">Time</option></div></select>
                         </div>
                     </div><button class="btn btn-light submit-button" type="goalsubmit" style="background: #ffdd68;">Submit Form</button>
                 </form>
@@ -119,7 +117,7 @@
                 const target = document.getElementById('target').value;
                 const goalType = document.getElementById('goalType').value;
 
-                const response = await fetch("http://localhost:5001/", {
+                const response = await fetch("http://localhost:3000/", {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
