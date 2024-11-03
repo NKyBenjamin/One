@@ -1,11 +1,13 @@
 const express = require('express');
 const Goal = require('../models/Goal');
-const { verifyToken } = require('../middleware/auth'); 
+const { verifyToken } = require('../routes/auth'); 
 
-const router = express.Router();
+const router = express.route('/');
+const router2 = express.route('/:id');
+
 
 // Create Goal
-router.post('/', verifyToken, async (req, res) => {
+router.post(verifyToken, async (req, res) => {
     const { title, description, goalType, target } = req.body;
     try {
         const newGoal = new Goal({ userId: req.userId, title, description, goalType, target });
@@ -17,7 +19,7 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 // Get Goals
-router.get('/', verifyToken, async (req, res) => {
+router.get(verifyToken, async (req, res) => {
     try {
         const goals = await Goal.find({ userId: req.userId });
         res.status(200).json(goals);
@@ -27,7 +29,7 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // Update Goal
-router.put('/:id', verifyToken, async (req, res) => {
+router2.put(verifyToken, async (req, res) => {
     const { title, description, goalType, target } = req.body;
     try {
         const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, { title, description, goalType, target }, { new: true });
@@ -38,7 +40,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 });
 
 // Delete Goal
-router.delete('/:id', verifyToken, async (req, res) => {
+router2.delete(verifyToken, async (req, res) => {
     try {
         await Goal.findByIdAndDelete(req.params.id);
         res.status(204).json();
@@ -48,3 +50,4 @@ router.delete('/:id', verifyToken, async (req, res) => {
 });
 
 module.exports = router;
+module.exports = router2;
