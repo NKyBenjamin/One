@@ -36,13 +36,24 @@
                             <form id="registerForm" method="post">
                                 <!-- Start: Success Example -->
                                 <div class="mb-3">
+                                    <input class="form-control" type="text" id="username" name="username" placeholder="Username" style="font-family: ABeeZee, sans-serif;" required></div>
+                                <div class="mb-3">
                                     <input class="form-control" type="text" id="fname" name="fname" placeholder="First Name" style="font-family: ABeeZee, sans-serif;" required></div>
                                 <!-- End: Success Example -->
-                                 <input class="form-control" type="text" id="lname" name="lname" placeholder="Last Name" style="font-family: ABeeZee, sans-serif;" required>
+                                <div class="mb-3"> 
+                                    <input class="form-control" type="text" id="lname" name="lname" placeholder="Last Name" style="font-family: ABeeZee, sans-serif;" required></div>
                                  <!-- Start: Error Example -->
+<<<<<<< HEAD
                                 <div class="mb-3"></div><!-- End: Error Example -->
                                     <input class="form-control" type="email" id="email-2" name="email" placeholder="Email" style="font-family: ABeeZee, sans-serif;"><div class="mb-3">
                                     <input class="form-control" type="password" id="password" name="password" placeholder="Password" style="font-family: ABeeZee, sans-serif;" required></div>
+=======
+                                <!-- End: Error Example -->
+                                <div class="mb-3">    
+                                    <input class="form-control" type="email" id="email-2" name="email" placeholder="Email" style="font-family: ABeeZee, sans-serif;"></div>
+                                <div class="mb-3">
+                                    <input class="form-control" type="text" id="password" name="password" placeholder="Password" style="font-family: ABeeZee, sans-serif;" required></div>
+>>>>>>> ca1ab98e0c760fa2f64fec29ee79e0b44132e764
                                 <div class="mb-3"></div>
                                 <div><button class="btn btn-primary d-block w-100" type="submit" style="background: #ffdd68;border-color: #ffdd68;">Sign Up</button></div>
                             </form>
@@ -65,7 +76,7 @@
                 const password = document.getElementById('password').value;
                 const fname = document.getElementById('fname').value;
                 const lname = document.getElementById('lname').value;
-                const email = document.getElementById('email').value;
+                const email = document.getElementById('email-2').value;
 
                 const response = await fetch("http://localhost:3000/register", {
                     method: "POST",

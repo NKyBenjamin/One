@@ -58,8 +58,12 @@
                         <div class="col-sm-6 input-column"><input class="form-control" type="title"></div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Duration of Goal</label></div>
+                        <div class="col-sm-4 label-column"><label class="col-form-label" for="duration-input-field">Duration of Goal</label></div>
                         <div class="col-sm-6 input-column"><input class="form-control" type="description"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4 label-column"><label class="col-form-label" for="target-input-field">Target of Goal</label></div>
+                        <div class="col-sm-6 input-column"><input class="form-control" type="target"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4 label-column"><label class="col-form-label" for="dropdown-input-field">Type of Goal</label></div>
@@ -90,6 +94,7 @@
         const goal = document.getElementById('username').value;
         const streak = document.getElementById('password').value;
         const time = document.getElementById('fname').value;
+<<<<<<< HEAD
         const lname = document.getElementById('lname').value;
         const email = document.getElementById('email').value;
 
@@ -109,6 +114,9 @@
         document.getElementById('welcomeMessage').innerText = 'Error loading user data';
     }
 };
+=======
+
+>>>>>>> ca1ab98e0c760fa2f64fec29ee79e0b44132e764
     </script>
     <script>
         //script to update database with a new goal
@@ -118,10 +126,10 @@
             try {
                 const title = document.getElementById('text').value;
                 const description = document.getElementById('description').value;
-                // const timeStart = 
+                const timeStart = dayjs();
                 const goalType = document.getElementById('goalType').value;
 
-                const response = await fetch("http://localhost:3000/register", {
+                const response = await fetch("http://localhost:3000/", {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
