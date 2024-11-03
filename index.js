@@ -50,7 +50,8 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes.router); // This should be valid
-app.use('/goals', goalRoutes); // This should also be valid
+app.use('/goals', goalRoutes); 
+app.use('register', authRoutes);// This should also be valid
 
 // Error handling
 app.use((err, req, res, next) => {
