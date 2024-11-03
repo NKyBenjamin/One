@@ -16,9 +16,15 @@ const PORT = process.env.PORT || 5001;
 app.set('trust proxy', true);
 app.enable('trust proxy');
 
+const path = require('path');
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'One')));
+
 app.get('/', (req, res) => {
-    res.send('Welcome to the homepage!');
+    res.sendFile(path.join(__dirname, 'One', 'index.html'));
 });
+
 
 // Middleware
 app.use(cors());
