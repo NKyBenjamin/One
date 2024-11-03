@@ -62,4 +62,5 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Export both the router and the isAuthenticated middleware
 module.exports = { router, isAuthenticated };

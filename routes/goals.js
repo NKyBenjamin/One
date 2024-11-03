@@ -1,6 +1,6 @@
 const express = require('express');
 const Goal = require('../models/Goal');
-const { isAuthenticated } = require('./auth'); 
+const { isAuthenticated } = require('./auth'); // This imports the middleware from auth.js
 
 const router = express.Router();
 
@@ -47,4 +47,5 @@ router.delete('/:id', isAuthenticated, async (req, res) => {
     }
 });
 
+// Export the router
 module.exports = router;
