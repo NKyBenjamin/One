@@ -9,7 +9,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "compression": "^1.7.5",
@@ -28,5 +27,8 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
