@@ -56,6 +56,42 @@
     <script src="/assets/js/bs-init.js?h=de3d39894fddf69026710ea6bd84d452"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
     <script src="/assets/js/Profile-Edit-Form-profile.js?h=36f16d72db7b5e137e5f6f74a6f95a32"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent traditional form submission
+        
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+        
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+        
+                const data = await response.json();
+        
+                if (response.ok) {
+                    // Display a success message and redirect if needed
+                    document.getElementById('message').textContent = 'Login successful!';
+                    setTimeout(() => {
+                        window.location.href = '/home.html'; // Redirect to home page
+                    }, 1000);
+                } else {
+                    // Display an error message if login fails
+                    document.getElementById('message').textContent = `Error: ${data.message}`;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById('message').textContent = 'An error occurred during login. Please try again.';
+            }
+        });
+        </script>
+        
 </body>
 
 </html>
