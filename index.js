@@ -13,6 +13,12 @@ const goalRoutes = require('./routes/goals'); // Ensure this is correct
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+app.set('trust proxy', true);
+app.enable('trust proxy');
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the homepage!');
+});
 
 // Middleware
 app.use(cors());
@@ -35,6 +41,11 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
+
+app.use((req, res) => {
+    res.status(404).send('Sorry, that route does not exist.');
+});
+
 
 // Rate limiter middleware
 const limiter = rateLimit({
